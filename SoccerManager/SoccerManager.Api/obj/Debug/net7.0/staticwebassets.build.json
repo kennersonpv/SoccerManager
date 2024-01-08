@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "rTIQOB2WzgYIatzIGC4qI6lbRjtyw+ZsVuK46kVhJlc=",
+  "Source": "SoccerManager.Api",
+  "BasePath": "_content/SoccerManager.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

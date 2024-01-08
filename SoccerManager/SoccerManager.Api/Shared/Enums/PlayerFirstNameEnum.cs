@@ -1,0 +1,43 @@
+﻿namespace SoccerManager.Api.Shared.Enums
+{
+    public enum PlayerFirstNameEnum
+    {
+        Joao,
+        Bernardo,
+        Jude,
+        Vinicius,
+        John,
+        Frank,
+        Mohamed,
+        Neymar,
+        Marcelo,
+        Ronaldo,
+        Cristiano,
+        Roberto,
+        Kevin,
+        Jack,
+        Nathan,
+        Sergio,
+        Julian,
+        Matheus,
+        Rodri,
+        Louis,
+        Lucas,
+        Carlos,
+        Lewis,
+        Marco,
+        Manuel,
+        Fabio,
+        James,
+        Paul,
+        Ben,
+        Thomas,
+        Diogo,
+        Gabriel,
+        William,
+        Charles,
+        Ethan,
+        Jorge,
+        Robert
+    }
+}

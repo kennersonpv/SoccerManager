@@ -1,0 +1,43 @@
+﻿namespace SoccerManager.Api.Shared.Enums
+{
+    public enum PlayerLastNameEnum
+    {
+        Pereira,
+        Silva,
+        Salah,
+        Vieira,
+        Saka,
+        Haaland,
+        Bruyne,
+        Trossard,
+        Paqueta,
+        Robertson,
+        Alcantra,
+        Jr, 
+        Clark,
+        Carvalho,
+        Diaz,
+        Hill,
+        Mbappe,
+        Mendes,
+        Ramos,
+        Dembele,
+        Asensio,
+        Soler,
+        Alaba,
+        Mendy,
+        Bellingham,
+        Kroos,
+        Modric,
+        Camavinga,
+        Valverde,
+        Vazquez,
+        Ceballos,
+        Zidane,
+        Garcia,
+        Courtois,
+        Lewandowski,
+        Hernandez,
+        Gundogan
+    }
+}
