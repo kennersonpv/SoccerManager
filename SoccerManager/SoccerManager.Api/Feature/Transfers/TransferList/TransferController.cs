@@ -4,7 +4,7 @@ using SoccerManager.Api.Feature.Teams.UpdateTeam;
 
 namespace SoccerManager.Api.Feature.Transfers.TransferList
 {
-    [Route("api/transfer")]
+    [Route("api/Transfer")]
     [ApiController]
     public class TransferController : ControllerBase
     {
@@ -15,7 +15,7 @@ namespace SoccerManager.Api.Feature.Transfers.TransferList
         }
 
         [Authorize]
-        [HttpGet("list")]
+        [HttpGet("List")]
         public async Task<TransferListResponse> GetTransferList(CancellationToken cancellationToken)
         {
             var authorization = HttpContext.Request.Headers["Authorization"];

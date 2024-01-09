@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SoccerManager.Api.Feature.Players.UpdatePlayer
 {
-    [Route("api/player")]
+    [Route("api/Player")]
     [ApiController]
     public class PlayerController : ControllerBase
     {
@@ -14,7 +14,7 @@ namespace SoccerManager.Api.Feature.Players.UpdatePlayer
         }
 
         [Authorize]
-        [HttpPut("update")]
+        [HttpPut("Update")]
         public async Task<UpdatePlayerResponse> UpdatePlayer(
                             [FromBody] UpdatePlayerRequest request,
                             CancellationToken cancellationToken

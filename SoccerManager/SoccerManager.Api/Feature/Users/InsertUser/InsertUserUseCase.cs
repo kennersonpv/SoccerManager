@@ -43,11 +43,27 @@ namespace SoccerManager.Api.Feature.User.InsertUser
 
         public async Task<Result<InsertUserResponse>> Handle(InsertUserRequest request, CancellationToken cancellationToken)
         {
-            var responseUser = await _usersRepository.InsertUserAsync(request.user, cancellationToken);
+            var user = new Shared.Entities.User()
+            {
+                Name = request.User.Name,
+                Email = request.User.Email,
+                Password = request.User.Password,
+            };
+
+            var responseUser = await _usersRepository.InsertUserAsync(user, cancellationToken);
 
             if (responseUser.IsSuccess)
             {
-                var responseTeam = await _teamsRepository.AddTeamAsync(request.team, responseUser.Value, cancellationToken);
+                user.Id = responseUser.Value;
+
+                var team = new Team()
+                {
+                    User = user,
+                    Name = request.User.Team.Name,
+                    Country = request.User.Team.Country
+                };
+
+                var responseTeam = await _teamsRepository.AddTeamAsync(team, responseUser.Value, cancellationToken);
                 var responseTeamAmount = await _teamAmountRepository.AddTeamAmountAsync(responseTeam.Value, TEAM_AMOUNT, cancellationToken);
 
                 if (responseTeam.IsSuccess)

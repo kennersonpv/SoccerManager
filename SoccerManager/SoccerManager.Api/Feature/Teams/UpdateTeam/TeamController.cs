@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SoccerManager.Api.Feature.Teams.UpdateTeam
 {
-    [Route("api/team")]
+    [Route("api/Team")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
     public class TeamController : ControllerBase
     {
         private readonly IUpdateTeamUseCase _updateTeamUseCase;
@@ -15,7 +14,7 @@ namespace SoccerManager.Api.Feature.Teams.UpdateTeam
         }
 
         [Authorize]
-        [HttpPut("update")]
+        [HttpPut("Update")]
         public async Task<UpdateTeamResponse> UpdateTeam(
                     [FromBody] UpdateTeamRequest request,
                     CancellationToken cancellationToken

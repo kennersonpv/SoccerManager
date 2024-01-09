@@ -52,7 +52,7 @@ namespace SoccerManager.Api.Shared.Repositories.Transfers
                 using (var context = new SoccerManagerDbContext(_dbContext))
                 {
 
-                    var transferValue = await context.Transfers.Where(t => t.Id == playerId && t.IsSold == false)
+                    var transferValue = await context.Transfers.Where(t => t.Player.Id == playerId && t.IsSold == false)
                                                                 .Select(t => t.Value)
                                                                 .FirstOrDefaultAsync();
 
@@ -77,26 +77,27 @@ namespace SoccerManager.Api.Shared.Repositories.Transfers
             {
                 using (var context = new SoccerManagerDbContext(_dbContext))
                 {
-                    var query = from transfer in context.Transfers
-                                join playerValue in context.PlayerValues
-                                    on transfer.Player.Id equals playerValue.Player.Id
-                                where !transfer.IsSold
-                                group playerValue by new { transfer.Player, transfer.TeamFrom, transfer.TeamTo } into playerGroup
-                                select new PlayerModel
-                                {
-                                    Id = playerGroup.Key.Player.Id,
-                                    FirstName = playerGroup.Key.Player.FirstName,
-                                    LastName = playerGroup.Key.Player.LastName,
-                                    Country = playerGroup.Key.Player.Country,
-                                    Position = playerGroup.Key.Player.Position,
-                                    Age = playerGroup.Key.Player.Age,
-                                    Value = playerGroup.OrderByDescending(pv => pv.DateTime).FirstOrDefault().Value
-                                };
+                    var query = await (from transfer in context.Transfers
+                                       join playerValue in context.PlayerValues
+                                           on transfer.Player.Id equals playerValue.Player.Id
+                                       join player in context.Players
+                                           on transfer.Player.Id equals player.Id
+                                       where !transfer.IsSold
+                                       select new PlayerModel
+                                       {
+                                           Id = player.Id,
+                                           FirstName = player.FirstName,
+                                           LastName = player.LastName,
+                                           Country = player.Country,
+                                           Position = player.Position,
+                                           Age = player.Age,
+                                           Value = transfer.Value
+                                       }).ToListAsync();
 
-                    return Result<IEnumerable<PlayerModel>>.Success(query.ToList());
+                    return Result<IEnumerable<PlayerModel>>.Success(query);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return Result<IEnumerable<PlayerModel>>.Failure(new Error("Insert", "Error to insert Transfer"));
             }
@@ -109,7 +110,7 @@ namespace SoccerManager.Api.Shared.Repositories.Transfers
                 using (var context = new SoccerManagerDbContext(_dbContext))
                 {
 
-                    var transfer = await context.Transfers.SingleOrDefaultAsync(t => t.Id == playerId && t.IsSold == false);
+                    var transfer = await context.Transfers.SingleOrDefaultAsync(t => t.Player.Id == playerId && t.IsSold == false);
 
                     if (transfer != null)
                     {
@@ -118,8 +119,7 @@ namespace SoccerManager.Api.Shared.Repositories.Transfers
                         transfer.TeamTo = team;
                         transfer.IsSold = true;
 
-                        context.Transfers.Add(transfer);
-                        var response = await context.SaveChangesAsync();
+                        await context.SaveChangesAsync();
 
                         return Result<bool>.Success(true);
                     }
@@ -127,7 +127,7 @@ namespace SoccerManager.Api.Shared.Repositories.Transfers
                     return Result<bool>.Success(false);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return Result<bool>.Failure(new Error("Insert", "Error to insert Transfer"));
             }

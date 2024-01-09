@@ -5,7 +5,7 @@ using SoccerManager.Api.Feature.Transfers.SellPlayer;
 
 namespace SoccerManager.Api.Feature.Transfers.BuyPlayer
 {
-    [Route("api/transfer")]
+    [Route("api/Transfer")]
     [ApiController]
     public class TransferController : ControllerBase
     {
@@ -16,7 +16,7 @@ namespace SoccerManager.Api.Feature.Transfers.BuyPlayer
         }
 
         [Authorize]
-        [HttpPost("sell")]
+        [HttpPost("Buy")]
         public async Task<BuyPlayerResponse> BuyPlayer(
                     [FromBody] BuyPlayerRequest request,
                     CancellationToken cancellationToken)

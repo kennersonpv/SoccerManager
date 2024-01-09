@@ -2,6 +2,7 @@
 using SoccerManager.Api.Shared.Helpers;
 using SoccerManager.Api.Shared.Repositories.PlayerValues;
 using SoccerManager.Api.Shared.Repositories.TeamAmounts;
+using SoccerManager.Api.Shared.Repositories.TeamPlayers;
 using SoccerManager.Api.Shared.Repositories.Teams;
 using SoccerManager.Api.Shared.Repositories.Transfers;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,16 +15,19 @@ namespace SoccerManager.Api.Feature.Transfers.BuyPlayer
         private readonly ITeamsRepository _teamsRepository;
         private readonly ITeamAmountRepository _teamAmountRepository;
         private readonly IPlayerValueRepository _playerValueRepository;
+        private readonly ITeamPlayersRepository _teamPlayersRepository;
 
         public BuyPlayerUseCase(ITransferRepository transferRepository,
             ITeamsRepository teamsRepository,
             ITeamAmountRepository teamAmountRepository,
-            IPlayerValueRepository playerValueRepository)
+            IPlayerValueRepository playerValueRepository,
+            ITeamPlayersRepository teamPlayersRepository)
         {
             _transferRepository = transferRepository;
             _teamsRepository = teamsRepository;
             _teamAmountRepository = teamAmountRepository;
             _playerValueRepository = playerValueRepository;
+            _teamPlayersRepository = teamPlayersRepository;
         }
 
         public async Task<Result<BuyPlayerResponse>> Handle(BuyPlayerRequest request, string authorization, CancellationToken cancellationToken)
@@ -57,6 +61,10 @@ namespace SoccerManager.Api.Feature.Transfers.BuyPlayer
                                 await _playerValueRepository.AddPlayerValueAsync(request.playerId,
                                                                                 PlayerHelper.RandomNewValue(responsePlayerValue.Value),
                                                                                 cancellationToken);
+
+                                await _teamPlayersRepository.UpdateTeamPlayerAsync(request.playerId, cancellationToken);
+
+                                await _teamPlayersRepository.AddTeamPlayerAsync(request.playerId, teamResponse.Value.Id, cancellationToken);
 
                                 return Result<BuyPlayerResponse>.Success(new BuyPlayerResponse());
                             }

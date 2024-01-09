@@ -2,7 +2,7 @@
 
 namespace SoccerManager.Api.Feature.User.InsertUser
 {
-    [Route("api/user")]
+    [Route("api/User")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -12,7 +12,7 @@ namespace SoccerManager.Api.Feature.User.InsertUser
             _userUseCase = userUseCase;
         }
 
-        [HttpPost("create")]
+        [HttpPost("Create")]
         public async Task<InsertUserResponse> CreateUser(
             [FromBody] InsertUserRequest request,
             CancellationToken cancellationToken

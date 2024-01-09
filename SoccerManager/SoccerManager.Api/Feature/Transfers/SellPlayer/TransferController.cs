@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SoccerManager.Api.Feature.Transfers.SellPlayer
 {
-    [Route("api/transfer")]
+    [Route("api/Transfer")]
     [ApiController]
     public class TransferController : ControllerBase
     {
@@ -14,7 +14,7 @@ namespace SoccerManager.Api.Feature.Transfers.SellPlayer
         }
 
         [Authorize]
-        [HttpPost("buy")]
+        [HttpPost("Sell")]
         public async Task<SellPlayerResponse> SellPlayer(
             [FromBody] SellPlayerRequest request,
             CancellationToken cancellationToken)

@@ -71,23 +71,27 @@ namespace SoccerManager.Api.Shared.Repositories.TeamPlayers
                                     .Where(tp => tp.Team.Id == teamId && tp.IsPlayer && tp.Player.Id == playerId)
                                     .Select(tp => tp.Player)
                                     .ToListAsync();
+                    if (players != null)
+                    {
+                        return Result<bool>.Success(true);
+                    }
 
-                    return Result<bool>.Success(true);
+                    return Result<bool>.Failure(new Error("Get", "Player not found"));
                 }
             }
             catch (Exception)
             {
-                return Result<bool>.Failure(new Error("Insert", "Error to get Players"));
+                return Result<bool>.Failure(new Error("Get", "Error to get Players"));
             }
         }
 
-        public async Task<Result<bool>> UpdateTeamPlayerAsync(int playerId, int teamId, CancellationToken cancellationToken)
+        public async Task<Result<bool>> UpdateTeamPlayerAsync(int playerId, CancellationToken cancellationToken)
         {
             try
             {
                 using (var context = new SoccerManagerDbContext(_dbContext))
                 {
-                    var result = await context.TeamPlayers.SingleOrDefaultAsync(tp => tp.Player.Id == playerId && tp.Team.Id == teamId);
+                    var result = await context.TeamPlayers.SingleOrDefaultAsync(tp => tp.Player.Id == playerId && tp.IsPlayer == true);
                     if (result != null)
                     {
                         result.IsPlayer = false;
