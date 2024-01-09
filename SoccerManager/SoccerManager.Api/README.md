@@ -28,3 +28,10 @@ To apply database migrations, use the following command:
 
 ```bash
 dotnet ef database update
+
+### Improvements
+
+Here's a few improvements I would do if i got more time:
+- Get list of players of users team
+- Create Unit tests
+- Create validation for inputs
